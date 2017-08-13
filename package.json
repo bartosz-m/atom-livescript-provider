@@ -33,6 +33,9 @@
   "devDependencies": {
     "chokidar": "^1.7.0",
     "fs-extra": "^4.0.1",
+    "livescript-async": "^1.5.2"
+  },
+  "dependencies": {
     "livescript-async": "^1.5.2",
     "loophole": "^1.1.0"
   }
