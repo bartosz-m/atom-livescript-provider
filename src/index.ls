@@ -1,7 +1,7 @@
 require! {
-    \loophole : { allow-unsafe-new-function }
-    \fs-extra : fs
+    \../package : Package
 }
+var livescript,fs,allow-unsafe-new-function
 
 module.exports =
     activate: ->
@@ -9,11 +9,19 @@ module.exports =
     deactivate: ->
 
     provide: ->
+        name: Package.name
+        description: Package.description
         from-grammar-name: 'LiveScript'
         from-scope-name: 'source.livescript'
         to-scope-name: 'source.js'
 
+        generate-ast: (code) ->
+            livescript ?:= require \livescript-async
+            livescript.ast code
+
         transform: (code, {file-path}) ->
+            livescript ?:= require \livescript-async
+            {allow-unsafe-new-function} ?:= require \loophole
             options =
                 map: 'linked'
                 bare: true
@@ -26,5 +34,6 @@ module.exports =
                 ..source-map = ..map.to-JSON!
 
         transform-file: (filename) ->>
+            fs ?:= require \fs-extra
             code = await fs.read-file filename \utf8
             @transform code, filename
