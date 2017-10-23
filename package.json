@@ -1,7 +1,7 @@
 {
   "name": "atom-livescript-provider",
   "version": "0.0.1",
-  "description": "",
+  "description": "Transpilation provider for LiveScript",
   "main": "lib/index.js",
   "scripts": {
     "develop": "./node_modules/.bin/lsc dev/watch.ls",
