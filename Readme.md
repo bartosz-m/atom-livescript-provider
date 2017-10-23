@@ -6,6 +6,7 @@ This is package for LiveScript compilation, part of LiveScript IDE project.
 - [x] transpiling code to LiveScript AST
 - [x] source map generation
 - [x] separate process
+- [x] experimental macros support
 - [ ] integration with Language Server Protocol
 - [ ] caching
 
