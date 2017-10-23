@@ -45,7 +45,7 @@ Task = Object.create null
     ..[init] = (arg) !->
         Deferred.[init].call @, arg
         WithTimeLimit.[init].call @, arg
-        @[set-time-limit] 2000
+
 
 remote =
     call: (method, args) ->
@@ -98,6 +98,7 @@ module.exports =
             macros = atom.config.get \atom-livescript-provider.enableMacros
             args = [code,{macros} <<< options]
             transform-task = remote.call \transform, args
+                ..[set-time-limit] 10000    # 10s to finish compilation
             transform-task.promise
 
 
