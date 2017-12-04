@@ -1,4 +1,7 @@
 module.exports =
+    debug:
+        type: 'boolean'
+        default: false
     modules:
         type: 'object'
         properties:

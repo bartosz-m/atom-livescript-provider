@@ -25,36 +25,41 @@ log-task-id = 0
 
 var runner
 tasks = {}
-process-message = (m) !->
-    if m.event?
-        console.log m.event
-    else if m.method == 'console.log'
-        console.log "runner:", ...m.args
-    else if task = tasks[m.id]
-        unless m.error
-            task.resolve m.result
-        else
-            task.reject m.error
-        delete tasks[m.id]
-    else
-        console.log "unregistered message ", m
 
 module.exports =
     config: config
     activate: ->
+        @process-message = @process-message.bind @
         runner := fork __dirname +  \/Provider, stdio: 'ipc'
-        runner.on \message process-message
+        runner.on \message @process-message
         remote.call \loadConfig atom.config.get \atom-livescript-provider
+        atom.config.observe \atom-livescript-provider.debug (@debug) !~>
         atom.config.on-did-change \atom-livescript-provider, ({new-value}) !~>
             runner.kill!
             tasks := {}
             runner := fork __dirname +  \/Provider, stdio: 'ipc'
-            runner.on \message process-message
+            runner.on \message @process-message
             remote.call \loadConfig new-value
+
+    process-message: (m) !->
+        if m.event?
+            @log m.event
+        else if m.method == 'console.log'
+            @log "runner:", ...m.args
+        else if task = tasks[m.id]
+            unless m.error
+                task.resolve m.result
+            else
+                task.reject m.error
+            delete tasks[m.id]
+        else
+            @log "unregistered message ", m
 
     deactivate: ->
         runner?kill!
         runner = null
+
+    log: !-> console.log it if @debug
 
     provide: ~>
         name: Package.name
