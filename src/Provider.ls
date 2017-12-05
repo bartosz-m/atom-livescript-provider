@@ -1,37 +1,28 @@
-require! {
-    \fs-extra : fs
-    \livescript : livescript
-    \livescript/lib/lexer
-    \livescript/lib/MacroCompiler
-    \livescript-compiler/lib/livescript/Compiler
-    loophole : { allow-unsafe-new-function }
-}
+log = (...args)-> process.send method: 'console.log', args: args
 
-log = (...args)->
-    process.send method: 'console.log', args: args
+process.on \unhandledRejection, (reason, p) -> log reason
 try
-
-    plugins = [
-        require \livescript-transform-object-create/lib/plugin
-        require \livescript-transform-implicit-async/lib/plugin
-        # require \livescript-transform-top-level-await/lib/plugin
-    ]
+    require! {
+        \fs-extra : fs
+        \livescript : livescript
+        \livescript/lib/lexer
+        \livescript-compiler/lib/livescript/Compiler
+        loophole : { allow-unsafe-new-function }
+    }
 
     compiler = Compiler.create livescript: livescript with {lexer}
 
-
-catch
-    log "Error #{e.message}"
-
-try
-    for plugin in plugins
-        plugin.install livescript
-
     load-config = (config) ->>
         log \config config
-        if config.modules.enable
+        if config.plugins.modules.enable
             transform-esm = require \livescript-transform-esm/lib/plugin
             transform-esm.install compiler, format: config.modules.format
+        if config.plugins.transform-object-create
+            transform = require \livescript-transform-object-create/lib/plugin
+            transform.install compiler
+        if config.plugins.transform-implicit-async
+            transform = require \livescript-transform-implicit-async/lib/plugin
+            transform.install compiler
 
     generate-ast = (code) ->>
         livescript.ast code
@@ -101,8 +92,8 @@ try
                     id: m.id
                     error: "missing method name"
         catch
-            process.send e{message,stack}
+            log 'error', e{message,stack}
 
     process.on \exit !-> process.send \exit
 catch
-    process.send "Error #{e.message}"
+    log 'error', e{message,stack}

@@ -2,15 +2,24 @@ module.exports =
     debug:
         type: 'boolean'
         default: false
-    modules:
+    plugins:
         type: 'object'
         properties:
-            enable:
+            modules:
+                type: 'object'
+                properties:
+                    enable:
+                        type: 'boolean'
+                        default: true
+                    format:
+                        type: 'string'
+                        default: 'esm'
+                        enum:
+                          * value: 'esm', description: 'ECMAScript modules.'
+                          * value: 'cjs', description: 'CommonJS modules.'
+            transform-object-create:
                 type: 'boolean'
                 default: true
-            format:
-                type: 'string'
-                default: 'esm'
-                enum:
-                  * value: 'esm', description: 'ECMAScript modules.'
-                  * value: 'cjs', description: 'CommonJS modules.'
+            transform-implicit-async:
+                type: 'boolean'
+                default: true

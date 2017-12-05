@@ -59,7 +59,11 @@ module.exports =
         runner?kill!
         runner = null
 
-    log: !-> console.log it if @debug
+    log: !->
+        args = [].map.call &, ->
+            if it.stack => that
+            else it
+        console.log ...args if @debug
 
     provide: ~>
         name: Package.name
