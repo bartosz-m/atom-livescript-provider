@@ -32,14 +32,14 @@
   "homepage": "https://gitlab.com/livescript-ide/atom-livescript-provider#README",
   "devDependencies": {
     "chokidar": "^1.7.0",
-    "fs-extra": "^4.0.2"
+    "fs-extra": "^4.0.3"
   },
   "dependencies": {
     "livescript": "git+https://github.com/bartosz-m/LiveScript.git#macros",
-    "livescript-compiler": "0.0.29",
-    "livescript-transform-esm": "^2.8.22",
-    "livescript-transform-implicit-async": "^1.0.1",
-    "livescript-transform-object-create": "1.0.3",
+    "livescript-compiler": "0.0.30",
+    "livescript-transform-esm": "^2.8.23",
+    "livescript-transform-implicit-async": "^1.0.3",
+    "livescript-transform-object-create": "1.0.4",
     "livescript-transform-top-level-await": "0.0.5",
     "loophole": "^1.1.0"
   }
