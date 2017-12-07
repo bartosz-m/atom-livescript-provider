@@ -14,9 +14,9 @@ try
 
     load-config = (config) ->>
         log \config config
-        if config.plugins.modules.enable
+        if config.plugins.transform-esm.enable
             transform-esm = require \livescript-transform-esm/lib/plugin
-            transform-esm.install compiler, format: config.modules.format
+            transform-esm.install compiler, format: config.transform-esm.format
         if config.plugins.transform-object-create
             transform = require \livescript-transform-object-create/lib/plugin
             transform.install compiler
