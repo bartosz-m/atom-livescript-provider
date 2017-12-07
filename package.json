@@ -1,6 +1,6 @@
 {
   "name": "atom-livescript-provider",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Transpilation provider for LiveScript",
   "main": "lib/index.js",
   "scripts": {
