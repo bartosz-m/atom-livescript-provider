@@ -37,7 +37,7 @@
   "dependencies": {
     "livescript": "git+https://github.com/bartosz-m/LiveScript.git#macros",
     "livescript-compiler": "0.0.35",
-    "livescript-transform-esm": "^2.9.9",
+    "livescript-transform-esm": "^2.12.0",
     "livescript-transform-implicit-async": "^1.0.7",
     "livescript-transform-object-create": "1.0.7",
     "livescript-transform-top-level-await": "0.0.5",
